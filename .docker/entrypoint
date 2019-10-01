@@ -4,7 +4,7 @@ set +e
 
 if [ ! -f "./Wagonfile" ]; then
   echo "⚙ Creating Wagonfile from defaults because it doesn't exist yet"
-  bundle exec rake wagon:file
+  cp ./Wagonfile.ci ./Wagonfile
   echo "✅ Created Wagonfile"
 else
   echo "↪️ Leaving existing Wagonfile as it is"
