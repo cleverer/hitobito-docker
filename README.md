@@ -48,20 +48,18 @@ drwxr-xr-x 27 user  864 Jun 11 09:30 hitobito_generic
 
 ## Docker Runtime
 
-To start the Hitobito application, run the following commands in your shell:
+To start the Hitobito application, run the following command in your shell:
 
 ```bash
-# Start the application
 docker-compose up app
 ```
-
-You can open the app in your browser under [http://localhost:3000].
-In order to "receive" emails, you can open mailcatcher under [http://localhost:1080].
 
 It will initially take a while to prepare the initial Docker images, to prepare the database and to start the application.
 The process will be shorter on subsequent starts.
 
-Once this is done, you should be able to log-in with the email address in the output and the password _password_.
+Once this is done, you can open the app in your browser under http://localhost:3000 and log in with the email address in the output and the password _password_.
+
+In order to "receive" emails, you can open mailcatcher under http://localhost:1080.
 
 ## Debug
 
