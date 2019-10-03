@@ -16,8 +16,8 @@ The free _Docker Community Edition (CE)_ works perfectly fine.
 First, you need to clone this repository:
 
 ```bash
-git clone https://github.com/nxt-engineering/hitobito-docker.git hitobito \
-  && cd hitobito
+git clone https://github.com/carlobeltrame/hitobito-docker.git \
+  && cd hitobito-docker
 ```
 
 This contains only the Docker instructions.
@@ -53,13 +53,10 @@ To start the Hitobito application, run the following commands in your shell:
 ```bash
 # Start the application
 docker-compose up app
-
-# Open the app:
-echo "http://$(docker-compose port app 3000)"
-
-# In order to "receive" emails, open mailcatcher:
-echo "http://$(docker-compose port mail 1080)"
 ```
+
+You can open the app in your browser under [http://localhost:3000].
+In order to "receive" emails, you can open mailcatcher under [http://localhost:1080].
 
 It will initially take a while to prepare the initial Docker images, to prepare the database and to start the application.
 The process will be shorter on subsequent starts.
@@ -69,7 +66,7 @@ The process will be shorter on subsequent starts.
 Get the login information via the Rails console.
 
 ```bash
-echo 'p=Person.first; p.update(password: "password"); "You can now login as #{p.email} with the password \"password\""' | \
+echo 'p=Person.first; p.update(password: "password"); "You can now login under http://localhost:3000 as #{p.email} with the password \'password\'"' | \
      docker-compose run --rm -T app rails c
 ```
 
@@ -83,6 +80,8 @@ Run the following command, to open it.
 ```bash
 docker-compose exec app rails c
 ```
+
+Also, you can use any IDE which supports the ruby-debug-ide gem (such as RubyMine or NetBeans) to debug the app running in the Docker container.
 
 ## Test
 
@@ -147,20 +146,8 @@ This method is also not too bad if your working environment got screwed up someh
 
 Here follows a dicussion about why certain things were done a certain way in this repository.
 
-### Exposed Ports
-
-The `docker-compose.yml` file does expose all relevant ports.
-But it does not assign them a well-known port.
-This means, that it is _intentionally_ not possible to access the main application using `http://localhost:3000`!
-Either you use `docker-compose ps` (or the `docker-compose port SERVICE PORTNUMBER` command) to get the actual port Docker assigned – or you use something like [Reception](https://github.com/nxt-engineering/reception).
-
-Why would you need this _Reception_ thingy? Because it makes all the services accessible through a reverse proxy that is accessible using `http://SERVICENAME.PROJECTNAME.docker` (or `http://SERVICENAME.PROJECTNAME.local` on Linux).
-This makes work more convenient and allows to have multiple projects, that all bind to the same port (e.g. `3000`), running at the same time.
-(Because Docker will handle the port conflict for us.)
-As an extra you get an overview over all running services and their exposed ports for free at `http://reception.docker` (or `http://reception.local` on linux).
-
 ### Mounts
 
 The current directy is mounted by _docker-compose_ into the running containers.
 The main advantage is a much simpler workflow, because it allows you to change your 'local' files and they are immediately picked up by the commands in the server.
-I.e. you don't have to re-build the Docker images after every time.
+I.e. you don't have to re-build the Docker images after every code change.

@@ -5,18 +5,13 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
  && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app/hitobito/
-COPY hitobito/Wagonfile.ci ./Wagonfile
-COPY hitobito/Gemfile hitobito/Gemfile.lock ./
-RUN bundle install
-
-WORKDIR /app/
-COPY ./ ./
-
 RUN ln -s /app/.docker/entrypoint /bin/entrypoint; \
     ln -s /app/.docker/waitfortcp /bin/waitfortcp
 
 WORKDIR /app/hitobito/
+COPY hitobito/Wagonfile.ci ./Wagonfile
+RUN gem install --prerelease ruby-debug-ide && gem install debase
+COPY hitobito/Gemfile hitobito/Gemfile.lock ./
 RUN bundle install
 
 ####################################################################
