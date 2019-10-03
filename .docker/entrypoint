@@ -24,9 +24,10 @@ fi
 
 if [ "$RAILS_ENV" == "development" ]; then
   if [ ! -f /seed/done ]; then
-    echo "⚙️ Seeding DB"
+    echo "⚙️ Seeding DB and resetting root user password"
     bundle exec rake db:seed wagon:seed && date > /seed/done
-    echo "✅ Seeding done"
+    echo 'p=Person.first; p.update(password: "password"); "You can now login under http://localhost:3000 as #{p.email} with the password '"'"'password'"'"'"' | rails c
+    echo "✅ Seeding and password reset done"
   else
     echo "↪️ Skipping seeding because already done on $(cat /seed/done)"
   fi

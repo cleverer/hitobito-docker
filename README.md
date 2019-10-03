@@ -61,16 +61,7 @@ In order to "receive" emails, you can open mailcatcher under [http://localhost:1
 It will initially take a while to prepare the initial Docker images, to prepare the database and to start the application.
 The process will be shorter on subsequent starts.
 
-## First Login
-
-Get the login information via the Rails console.
-
-```bash
-echo 'p=Person.first; p.update(password: "password"); "You can now login under http://localhost:3000 as #{p.email} with the password \'password\'"' | \
-     docker-compose run --rm -T app rails c
-```
-
-Now you should be able to log-in with the email address in the output and the password _password_.
+Once this is done, you should be able to log-in with the email address in the output and the password _password_.
 
 ## Debug
 
@@ -111,6 +102,12 @@ If you need to re-seed your db, use the following command:
 
 ```
 docker-compose run --rm app rake db:seed wagon:seed
+```
+
+After that, you might need to reset the root user's password again:
+```
+echo 'p=Person.first; p.update(password: "password"); "You can now login under http://localhost:3000 as #{p.email} with the password '"'"'password'"'"'"' | \
+  docker-compose run --rm -T app rails c
 ```
 
 ## Full-text search
