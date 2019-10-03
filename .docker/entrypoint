@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set +e
+set -e
 
 if [ ! -f "./Wagonfile" ]; then
   echo "⚙ Creating Wagonfile from defaults because it doesn't exist yet"
@@ -38,4 +38,4 @@ fi
 echo "➡️ Handing control over to '$*''"
 
 # shellcheck disable=SC2068
-exec bundle exec $@
+exec bundle exec "$@"
