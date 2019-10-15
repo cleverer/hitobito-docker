@@ -2,6 +2,9 @@
 
 set -e
 
+# Add the docker host IP as seen from the container. Requests from this IP will be allowed by better_errors.
+export DOCKER_HOST_IP=`/sbin/ip -4 route list match 0/0 | awk '{ print $3 }' | head -n 1`
+
 if [ ! -f "./Wagonfile" ]; then
   echo "⚙ Creating Wagonfile from defaults because it doesn't exist yet"
   cp ./Wagonfile.ci ./Wagonfile
