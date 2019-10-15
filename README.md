@@ -46,7 +46,7 @@ drwxr-xr-x 36 user 1.2K Jul 15 13:56 hitobito
 drwxr-xr-x 27 user  864 Jun 11 09:30 hitobito_generic
 ```
 
-## Docker Runtime
+## Running the project with docker-compose
 
 To start the Hitobito application, run the following command in your shell:
 
@@ -61,7 +61,10 @@ Once this is done, you can open the app in your browser under http://localhost:3
 
 In order to "receive" emails, you can open mailcatcher under http://localhost:1080.
 
-## Debug
+## Running in RubyMine
+In case you want to run this project in RubyMine without locally installing Ruby (everything through the containers), you can find some additional instructions for setting this up [here](RUBYMINE-SETUP.md).
+
+## Debugging the application
 
 The Rails console is your friend.
 Run the following command, to open it.
@@ -70,9 +73,7 @@ Run the following command, to open it.
 docker-compose exec app rails c
 ```
 
-Also, you can use any IDE which supports the ruby-debug-ide gem (such as RubyMine or NetBeans) to debug the app running in the Docker container.
-
-## Test
+## Specs
 
 The hitobito application has a lot of rspec tests.
 To run them all, use the following command:
@@ -92,6 +93,14 @@ Starting hitobito_db-test_1 ... done
 root@a42b42c42d42:/app/hitobito# rake db:migrate wagon:migrate # if you changed the db schema
 root@a42b42c42d42:/app/hitobito# cd ../hitobito_WAGON/
 root@a42b42c42d42:/app/hitobito_WAGON# rspec
+```
+
+## Installing gems
+
+After installing new gems or fetching a revision from Git that has some new gems installed, you should re-build your containers:
+```bash
+$ docker-compose build --no-cache
+$ docker-compose up
 ```
 
 ## Seed
