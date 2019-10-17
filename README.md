@@ -100,7 +100,7 @@ root@a42b42c42d42:/app/hitobito_WAGON# rspec
 After installing new gems or fetching a revision from Git that has some new gems installed, you should re-build your containers:
 ```bash
 $ docker-compose build --no-cache
-$ docker-compose up
+$ docker-compose up app
 ```
 
 ## Seed
