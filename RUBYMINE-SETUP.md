@@ -11,6 +11,8 @@ This was tested on RubyMine 2019.2.3.
 * Start the application using the Development: hitobito run configuration.
 
 ## Specs
+Before running tests, the containers must be running. So run or debug Development: hitobito, or run `docker-compose up app` on the console.
+
 Configure the RSpec run configuration template as follows:
 * Use custom RSpec runner script: /path/to/your/repo/hitobito-docker/.rubymine/wagon-aware-rspec.rb
 * Use pre-load server: None
