@@ -4,14 +4,14 @@ The following is a writeup of some steps that might need to be done in order to 
 This was tested on RubyMine 2019.2.3.
 
 ## Basic setup
-* Mark each wagon as Ruby module root (via context menu). This will create some run configurations, we will only need the "Development: hitobito" one.
+* Mark each wagon as Ruby module root (via context menu). This will create some run configurations, we will only need the *Development: hitobito* one.
 * In Settings -> Build, Execution, Deployment -> Docker, set up RubyMine's connection to Docker
 * Create a remote docker-compose Ruby SDK for the app service and set it as default SDK for all wagons
 * In Settings -> Version Control, register each Wagon as a repository root
-* Start the application using the Development: hitobito run configuration.
+* Start the application using the *Development: hitobito* run configuration.
 
 ## Specs
-Before running tests, the containers must be running. So run or debug Development: hitobito, or run `docker-compose up app` on the console.
+Before running tests, the containers must be running. So run or debug *Development: hitobito*, or run `docker-compose up app` on the console.
 
 Configure the RSpec run configuration template as follows:
 * Use custom RSpec runner script: /path/to/your/repo/hitobito-docker/.rubymine/wagon-aware-rspec.rb
@@ -22,12 +22,12 @@ Configure the RSpec run configuration template as follows:
 To make debugging tests work, disable "Spring for Debug" in Settings -> Debugger.
 
 Note that currently, since we are using the app container for both local server and specs, the database becomes unusable for the local server after running specs.
-To fix this, run `docker-compose down --volumes` in the Terminal / console and re-run the Development: hitobito run configuration.
+To fix this, run `docker-compose down --volumes` in the Terminal / console and re-run the *Development: hitobito* run configuration.
 This unfortunately takes quite a long time, so it is currently recommended to switch between testing and GUI as little as possible.
 An alternative solution involving the separate test and db-test containers is still to be developed.
 
 ## Debugging the application
-* Run the Development: hitobito run configuration in debug mode, set some breakpoints and debug away.
+* Run the *Development: hitobito* run configuration in debug mode, set some breakpoints and debug away.
 
 ## Common problems
 (Striked-out lines were also tried but didn't solve the problem at the time.)
