@@ -15,9 +15,9 @@ Before running tests, the containers must be running. So run or debug *Developme
 
 Configure the RSpec run configuration template as follows:
 * Use custom RSpec runner script: /path/to/your/repo/hitobito-docker/.rubymine/wagon-aware-rspec.rb
-* Use pre-load server: None
+* Use pre-load server: None. *This template setting is [not respected by RubyMine](https://youtrack.jetbrains.com/issue/RUBY-16779) though, so you have to uncheck it in every run configuration manually.*
 * docker-compose: docker-compose exec
-* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)". This template setting is not respected by RubyMine 2019.2 though, so you have to uncheck it in every run configuration manually.
+* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)". *This template setting is [not respected by RubyMine](https://youtrack.jetbrains.com/issue/RUBY-16779) though, so you have to uncheck it in every run configuration manually.*
 
 To make debugging tests work, disable "Spring for Debug" in Settings -> Debugger.
 
@@ -52,4 +52,13 @@ An alternative solution involving the separate test and db-test containers is st
 * Use the custom rspec runner script (already in the Specs instructions above)
 * Workaround: cd into the wagon before executing the test and run without bundle exec
 
+##### "uninitialized constant <some controller name> (NameError)" in wagon's controller tests
+* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)" (already in the Specs instructions above)
+* Disable Spring for the run configuration (already in the Specs instructions above)
+* Use the custom rspec runner script (already in the Specs instructions above)
+* Workaround: cd into the wagon before executing the test and run without bundle exec
 
+##### "Error running 'some run configuration': Failed to find free socket port for process dispatcher"
+It is not possible to run the application and some tests in debug mode at the same time.
+If you were trying to run a test, stop the application, start *Development: hitobito* in normal mode and try again.
+If you were trying to debug the application, stop any tests that are still being debugged and try again.
