@@ -1,7 +1,7 @@
 # Hitobito
 
-_Hitobito_ is an open source web application to manage complex group hierarchies with members, events and a lot more.
-A quick way to begin working on Hitobito and it's wagons is using _Docker_ and _docker-compose_.
+[_Hitobito_](https://github.com/hitobito/hitobito) is an open source web application to manage complex group hierarchies with members, events and a lot more.
+This repository offers a quick way to begin working on Hitobito and its wagons, using _Docker_ and _docker-compose_.
 
 ## System Requirements
 
@@ -57,7 +57,7 @@ docker-compose up app
 It will initially take a while to prepare the initial Docker images, to prepare the database and to start the application.
 The process will be shorter on subsequent starts.
 
-Once this is done, you can open the app in your browser under http://localhost:3000 and log in with the email address in the output and the password _password_.
+Once this is done, you can open the app in your browser under http://localhost:3000 and log in with the email address in the output and the password _hito42bito_.
 
 In order to "receive" emails, you can open mailcatcher under http://localhost:1080.
 
