@@ -43,9 +43,6 @@ This is due to the fact that RubyMine can only debug via port 1234, and both con
 ## Troubleshooting
 (Striked-out lines were also tried but didn't solve the problem at the time.)
 
-##### "A server is already running. Check /app/hitobito/tmp/pids/server.pid."
-* Manually delete the file hitobito/tmp/pids/server.pid
-
 ##### "Unable to detect full path for ruby" when trying to add a remote docker-compose ruby SDK:
 * ~~Delete .idea and restart RubyMine~~
 * ~~Re-setup Docker in RubyMine~~

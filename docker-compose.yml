@@ -11,6 +11,7 @@ services:
     env_file: .docker/app.env
     ports:
     - "3000:3000"
+    tmpfs: /app/hitobito/tmp/pids
     volumes:
     - ./:/app
     - seed:/seed
@@ -33,6 +34,7 @@ services:
     environment:
       RAILS_DB_NAME: hitobito_test
       RAILS_DB_HOST: db-test
+    tmpfs: /app/hitobito/tmp/pids
     volumes:
     - ./:/app
 
