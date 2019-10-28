@@ -24,7 +24,7 @@ services:
     - mail
     - cache
 
-  test:
+  test: &test
     build:
       context: .
       target: test
@@ -36,6 +36,12 @@ services:
       RAILS_DB_HOST: db-test
     volumes:
     - ./:/app
+
+  app-test:
+    <<: *test
+    command: tail -f /dev/null
+    ports:
+      - "1234:1234"
 
   # Dependencies
 
