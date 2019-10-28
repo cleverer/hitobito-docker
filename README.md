@@ -59,7 +59,7 @@ The process will be shorter on subsequent starts.
 
 Once this is done, you can open the app in your browser under http://localhost:3000 and log in with the email address in the output and the password _hito42bito_.
 
-In order to "receive" emails, you can open mailcatcher under http://localhost:1080.
+In order to "receive" emails that are sent out by your hitobito instance, you can open mailcatcher under http://localhost:1080.
 
 ## Running in RubyMine
 In case you want to run this project in RubyMine without locally installing Ruby (everything through the containers), you can find some additional instructions for setting this up [here](RUBYMINE-SETUP.md).
