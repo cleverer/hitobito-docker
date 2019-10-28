@@ -11,7 +11,6 @@ services:
     env_file: .docker/app.env
     ports:
     - "3000:3000"
-    - "1234:1234"
     volumes:
     - ./:/app
     - seed:/seed
@@ -40,8 +39,6 @@ services:
   app-test:
     <<: *test
     command: tail -f /dev/null
-    ports:
-      - "1234:1234"
 
   # Dependencies
 
