@@ -1,10 +1,13 @@
 #!/bin/bash
 
-set +e
+set -e
+
+# Add the docker host IP as seen from the container. Requests from this IP will be allowed by better_errors.
+export DOCKER_HOST_IP=`/sbin/ip -4 route list match 0/0 | awk '{ print $3 }' | head -n 1`
 
 if [ ! -f "./Wagonfile" ]; then
   echo "⚙ Creating Wagonfile from defaults because it doesn't exist yet"
-  cp ./Wagonfile.ci ./Wagonfile
+  cp ../.docker/Wagonfile ./Wagonfile
   echo "✅ Created Wagonfile"
 else
   echo "↪️ Leaving existing Wagonfile as it is"
@@ -24,9 +27,10 @@ fi
 
 if [ "$RAILS_ENV" == "development" ]; then
   if [ ! -f /seed/done ]; then
-    echo "⚙️ Seeding DB"
+    echo "⚙️ Seeding DB and resetting root user password"
     bundle exec rake db:seed wagon:seed && date > /seed/done
-    echo "✅ Seeding done"
+    echo 'p=Person.first; p.update(password: "hito42bito"); "You can now login under http://localhost:3000 as #{p.email} with the password '"'"'hito42bito'"'"'"' | rails c
+    echo "✅ Seeding and password reset done"
   else
     echo "↪️ Skipping seeding because already done on $(cat /seed/done)"
   fi
@@ -36,5 +40,4 @@ fi
 
 echo "➡️ Handing control over to '$*''"
 
-# shellcheck disable=SC2068
-exec bundle exec $@
+exec bundle exec "$@"
