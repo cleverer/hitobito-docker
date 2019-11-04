@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 RUN ln -s /app/.docker/entrypoint /bin/entrypoint; \
     ln -s /app/.docker/waitfortcp /bin/waitfortcp
 
-WORKDIR /app/hitobito/
+WORKDIR /app/hitobito
 COPY hitobito/Wagonfile.ci ./Wagonfile
 RUN gem install --prerelease ruby-debug-ide && gem install debase
 COPY hitobito/Gemfile hitobito/Gemfile.lock ./
@@ -29,25 +29,3 @@ ENV RAILS_ENV=test
 
 ENTRYPOINT [ "/bin/entrypoint" ]
 CMD [ "rspec" ]
-
-####################################################################
-FROM ruby:2.6-alpine3.9 as prod
-
-WORKDIR /app/hitobito
-COPY hitobito/Gemfile hitobito/Gemfile.lock ./
-RUN bundle install \
-      --deployment \
-      --frozen \
-      --without=test \
-      --without=development \
-      --without=concolse \
-      --without=metrics
-
-COPY .docker/entrypoint .docker/waitfortcp /bin/
-
-COPY hitobito/ ./
-
-ENV RAILS_ENV=production
-
-ENTRYPOINT [ "bundle", "exec" ]
-CMD [ "rails", "serve" ]
