@@ -41,6 +41,8 @@ services:
   app-test:
     <<: *test
     command: tail -f /dev/null
+    ports:
+    - "1234:1234"
 
   # Dependencies
 

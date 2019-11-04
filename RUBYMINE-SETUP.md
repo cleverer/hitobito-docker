@@ -14,6 +14,7 @@ This was tested on RubyMine 2019.2.3.
 
 ### Debugging
 Run the *Development: hitobito* run configuration in debug mode, set some breakpoints and debug away.
+Since it is not possible to configure the debug port in RubyMine, it is not possible to run any tests or specs while the main application is in debug mode.
 
 ## Specs
 Configure the RSpec run configuration template as follows:
@@ -30,15 +31,15 @@ To do this, duplicate the *Development: hitobito* run configuration and
 * Set Environment to test
 * Set the SDK to the one based on app-test
 
-Then run this new run configuration.
+If *Development: hitobito* is currently running in debug mode, you have to stop that (or restart it in normal mode) before running the new run configuration *Test: hitobito*.
+This is due to the fact that RubyMine can only debug via port 1234, and both containers cannot occupy this port at the same time.
+
+Now you can start *Test: hitobito*.
 Once the migrations are done, you are ready to run tests (but keep in mind that you have to manually adjust the run configurations, due to the RubyMine bug mentioned above).
 
 ### Debugging
 To make debugging tests work, make sure to disable "Spring for Debug" in Settings -> Debugger.
-Then run *Test: hitobito* in debug mode, set some breakpoints and debug away.
-
-Note: If *Development: hitobito* is currently running in debug mode, you have to stop that (or restart it in normal mode) before debugging *Test: hitobito*.
-This is due to the fact that RubyMine can only debug via port 1234, and both containers cannot occupy this port at the same time.
+Then run *Test: hitobito* normally (not in debug mode), set some breakpoints in tests, and run the tests in debug mode.
 
 ## Troubleshooting
 (Striked-out lines were also tried but didn't solve the problem at the time.)
@@ -67,7 +68,7 @@ This is due to the fact that RubyMine can only debug via port 1234, and both con
 * Workaround: cd into the wagon before executing the test and run without bundle exec
 
 ##### "Error running 'something': Failed to find free socket port for process dispatcher"
-You cannot debug both *Development: hitobito* and *Test: hitobito* at the same time.
+You cannot debug both *Development: hitobito* and any test or spec at the same time.
 Running both at the same time is fine, as long as not both are in debug mode.
 Stop the one already running in debug mode before debugging the other.
 
