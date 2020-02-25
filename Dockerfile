@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /app/.docker/entrypoint /bin/entrypoint; \
+    ln -s /app/.docker/worker-entrypoint /bin/worker-entrypoint; \
     ln -s /app/.docker/waitfortcp /bin/waitfortcp
 
 WORKDIR /app/hitobito

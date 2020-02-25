@@ -8,6 +8,7 @@ services:
     - db
     - mail
     - cache
+    - worker
     env_file: .docker/app.env
     ports:
     - "3000:3000"
@@ -18,7 +19,9 @@ services:
 
   worker:
     <<: *app
+    entrypoint: worker-entrypoint
     command: [ rake, 'jobs:work' ]
+    ports: []
     depends_on:
     - db
     - mail
