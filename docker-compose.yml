@@ -19,7 +19,7 @@ services:
 
   worker:
     <<: *app
-    entrypoint: worker-entrypoint
+    entrypoint: /app/.docker/worker-entrypoint
     command: [ rake, 'jobs:work' ]
     ports: []
     depends_on:

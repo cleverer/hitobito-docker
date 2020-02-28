@@ -5,14 +5,13 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
  && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /app/.docker/entrypoint /bin/entrypoint; \
-    ln -s /app/.docker/worker-entrypoint /bin/worker-entrypoint; \
-    ln -s /app/.docker/waitfortcp /bin/waitfortcp
+WORKDIR /app
+COPY ./ ./
 
 WORKDIR /app/hitobito
 COPY hitobito/Wagonfile.ci ./Wagonfile
-RUN gem install --prerelease ruby-debug-ide && gem install debase
 COPY hitobito/Gemfile hitobito/Gemfile.lock ./
+RUN gem install --prerelease ruby-debug-ide && gem install debase
 RUN bundle install
 
 ####################################################################
@@ -20,7 +19,7 @@ FROM base as dev
 
 ENV RAILS_ENV=development
 
-ENTRYPOINT [ "/bin/entrypoint" ]
+ENTRYPOINT [ "/app/.docker/entrypoint" ]
 CMD [ "rails", "server", "-b", "0.0.0.0" ]
 
 ####################################################################

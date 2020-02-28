@@ -3,7 +3,7 @@
 set -e
 
 echo "⚙️ Testing DB connection"
-timeout 300s waitfortcp "${RAILS_DB_HOST-db}" "${RAILS_DB_PORT-3306}"
+timeout 300s /app/.docker/waitfortcp "${RAILS_DB_HOST-db}" "${RAILS_DB_PORT-3306}"
 echo "✅ DB is ready"
 
 echo "➡️ Handing control over to '$*''"
