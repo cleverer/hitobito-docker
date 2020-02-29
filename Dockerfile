@@ -27,5 +27,5 @@ FROM base as test
 
 ENV RAILS_ENV=test
 
-ENTRYPOINT [ "/bin/entrypoint" ]
+ENTRYPOINT [ "/app/.docker/entrypoint" ]
 CMD [ "rspec" ]
