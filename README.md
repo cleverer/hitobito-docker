@@ -167,8 +167,10 @@ I.e. you don't have to re-build the Docker images after every time.
 ## VS Code
 
 To open the project in vs code with plug and play, you need [Docker](https://docs.docker.com/install/), the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) Plugin and the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).  
+When you open this project in VS Code, it propts you to open in container. Do that.  
 First thing you should do is to open a terminal and run the following commands. Caution, they take a long time, so grab a coffe:
 ```sh
+cd hitobito
 bundle exec rake db:migrate wagon:migrate
 bundle exec rake db:seed wagon:seed && date > /seed/done # /seed/done is used by the docker entrypoint…
 ```  
