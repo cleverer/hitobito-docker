@@ -163,3 +163,13 @@ As an extra you get an overview over all running services and their exposed port
 The current directy is mounted by _docker-compose_ into the running containers.
 The main advantage is a much simpler workflow, because it allows you to change your 'local' files and they are immediately picked up by the commands in the server.
 I.e. you don't have to re-build the Docker images after every time.
+
+## VS Code
+
+To open the project in vs code with plug and play, you need [Docker](https://docs.docker.com/install/), the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) Plugin and the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).  
+First thing you should do is to open a terminal and run the following commands. Caution, they take a long time, so grab a coffe:
+```sh
+bundle exec rake db:migrate wagon:migrate
+bundle exec rake db:seed wagon:seed && date > /seed/done # /seed/done is used by the docker entrypoint…
+```  
+You should be able to easily open and run it with the [integrated debugger](https://code.visualstudio.com/docs/editor/debugging).
