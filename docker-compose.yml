@@ -19,6 +19,7 @@ services:
     <<: *app
     command: [ rake, 'jobs:work' ]
     ports: []
+    entrypoint: []
     depends_on:
     - db
     - mail
