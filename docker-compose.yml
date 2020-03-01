@@ -17,7 +17,7 @@ services:
 
   worker:
     <<: *app
-    command: [ rake, 'jobs:work' ]
+    command: [ "bundle", "exec", "rake", "jobs:work" ]
     ports: []
     entrypoint: []
     depends_on:
