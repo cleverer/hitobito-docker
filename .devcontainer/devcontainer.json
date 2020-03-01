@@ -38,7 +38,8 @@
 		"cache",
 		"mail",
 		"db",
-		"worker"
+		"worker",
+		"db-test"
 	],
 
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.

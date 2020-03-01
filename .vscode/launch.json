@@ -27,6 +27,11 @@
 			"pathToBundler": "/usr/local/bin/bundle",
 			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
 			"showDebuggerOutput": true,
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
 		},
 		{
 			"name": "Debug RSpec - open spec file",
@@ -40,7 +45,12 @@
 			"showDebuggerOutput": true,
 			"args": [
 				"${file}"
-			]
+			],
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
 		},
 		{
 			"name": "Debug RSpec - open spec file on a certain line",
@@ -54,7 +64,12 @@
 			"showDebuggerOutput": true,
 			"args": [
 				"${file}:${lineNumber}"
-			]
+			],
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
 		}
 	]
 }
