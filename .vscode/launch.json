@@ -6,9 +6,10 @@
 			"type": "Ruby",
 			"request": "launch",
 			"cwd": "/app/hitobito",
-			"useBundler": false,
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
 			"program": "/usr/local/bundle/bin/rails",
-			"pathToRDebugIDE": "/usr/local/bundle/bin/rdebug-ide",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
 			"args": [
 				"server",
 				"-b",
@@ -22,8 +23,9 @@
 			"request": "launch",
 			"cwd": "/app/hitobito",
 			"program": "/usr/local/bundle/bin/rspec",
-			"useBundler": false,
-			"pathToRDebugIDE": "/usr/local/bundle/bin/rdebug-ide",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
 			"showDebuggerOutput": true,
 		},
 		{
@@ -32,8 +34,9 @@
 			"request": "launch",
 			"cwd": "/app/hitobito",
 			"program": "/usr/local/bundle/bin/rspec",
-			"useBundler": false,
-			"pathToRDebugIDE": "/usr/local/bundle/bin/rdebug-ide",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
 			"showDebuggerOutput": true,
 			"args": [
 				"${file}"
@@ -45,8 +48,9 @@
 			"request": "launch",
 			"cwd": "/app/hitobito",
 			"program": "/usr/local/bundle/bin/rspec",
-			"useBundler": false,
-			"pathToRDebugIDE": "/usr/local/bundle/bin/rdebug-ide",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
 			"showDebuggerOutput": true,
 			"args": [
 				"${file}:${lineNumber}"

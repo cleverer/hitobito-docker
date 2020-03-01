@@ -45,7 +45,7 @@
 	// "shutdownAction": "none",
 
 	// Uncomment the next line to run commands after the container is created - for example installing git.
-	"postCreateCommand": "gem install ruby-debug-ide debase",
+	"postCreateCommand": "cd hitobito && bundle add ruby-debug-ide debase",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
