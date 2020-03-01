@@ -1,6 +1,0 @@
-{
-	"ruby.codeCompletion": "rcodetools",
-	"ruby.format": "rubocop",
-	"ruby.intellisense": "rubyLocate",
-	"ruby.useLanguageServer": true
-}
