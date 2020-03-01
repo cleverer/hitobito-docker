@@ -1,21 +1,23 @@
 version: '3.4'
 services:
   app: &app
-    build:
-      context: .
-      target: dev
+    build: .
     depends_on:
     - db
     - mail
     - cache
     - worker
     env_file: .docker/app.env
+    environment:
+      RAILS_ENV: development
+    entrypoint: "/app/.docker/entrypoint"
     ports:
     - "3000:3000"
     tmpfs: /app/hitobito/tmp/pids
     volumes:
     - ./:/app
     - seed:/seed
+    command: [ "rails", "server", "-b", "0.0.0.0" ]
 
   worker:
     <<: *app
@@ -27,19 +29,18 @@ services:
     - mail
     - cache
 
-  test: &test
-    build:
-      context: .
-      target: test
+  test:
+    <<: *app
     depends_on:
     - db-test
-    env_file: .docker/app.env
+    ports: []
     environment:
       RAILS_DB_NAME: hitobito_test
       RAILS_DB_HOST: db-test
-    tmpfs: /app/hitobito/tmp/pids
+      RAILS_ENV: test
     volumes:
     - ./:/app
+    command: [ "rspec" ]
 
   app-test:
     <<: *test
@@ -50,9 +51,7 @@ services:
   # Dependencies
 
   mail:
-    build:
-      context: .
-      target: base
+    build: .
     command: [ mailcatcher, -f, --ip, '0.0.0.0' ]
     ports:
     - "1080:1080"
