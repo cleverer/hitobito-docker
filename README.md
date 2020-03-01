@@ -1,7 +1,7 @@
 # Hitobito
 
-_Hitobito_ is an open source web application to manage complex group hierarchies with members, events and a lot more.
-A quick way to begin working on Hitobito and it's wagons is using _Docker_ and _docker-compose_.
+[_Hitobito_](https://github.com/hitobito/hitobito) is an open source web application to manage complex group hierarchies with members, events and a lot more.
+This repository offers a quick way to begin working on Hitobito and its wagons, using _Docker_ and _docker-compose_.
 
 ## System Requirements
 
@@ -16,8 +16,8 @@ The free _Docker Community Edition (CE)_ works perfectly fine.
 First, you need to clone this repository:
 
 ```bash
-git clone https://github.com/nxt-engineering/hitobito-docker.git hitobito \
-  && cd hitobito
+git clone https://github.com/carlobeltrame/hitobito-docker.git \
+  && cd hitobito-docker
 ```
 
 This contains only the Docker instructions.
@@ -32,7 +32,7 @@ git clone https://github.com/hitobito/hitobito.git
 git clone https://github.com/hitobito/hitobito_generic.git
 ```
 
-You need to set up at least one wagon project. Don't forget to [copy the Wagonfile](https://github.com/hitobito/hitobito/blob/master/doc/development/04_wagons.md#grundlegendes) in the core project!
+You need to set up at least one wagon project.
 The final structure should look something like this:
 
 ```bash
@@ -45,36 +45,25 @@ drwxr-xr-x 36 user 1.2K Jul 15 13:56 hitobito
 drwxr-xr-x 27 user  864 Jun 11 09:30 hitobito_generic
 ```
 
-## Docker Runtime
+## Running the project with docker-compose
 
-To start the Hitobito application, run the following commands in your shell:
+To start the Hitobito application, run the following command in your shell:
 
 ```bash
-# Start the application
 docker-compose up app
-
-# Open the app:
-echo "http://$(docker-compose port app 3000)"
-
-# In order to "receive" emails, open mailcatcher:
-echo "http://$(docker-compose port mail 1080)"
 ```
 
 It will initially take a while to prepare the initial Docker images, to prepare the database and to start the application.
 The process will be shorter on subsequent starts.
 
-## First Login
+Once this is done, you can open the app in your browser under http://localhost:3000 and log in with the email address in the output and the password _hito42bito_.
 
-Get the login information via the Rails console.
+In order to "receive" emails that are sent out by your hitobito instance, you can open mailcatcher under http://localhost:1080.
 
-```bash
-echo 'p=Person.first; p.update(password: "password"); "You can now login as #{p.email} with the password \"password\""' | \
-     docker-compose run --rm -T app rails c
-```
+## Running in RubyMine
+In case you want to run this project in RubyMine without locally installing Ruby (everything through the containers), you can find some additional instructions for setting this up [here](RUBYMINE-SETUP.md).
 
-Now you should be able to log-in with the email address in the output and the password _password_.
-
-## Debug
+## Debugging the application
 
 The Rails console is your friend.
 Run the following command, to open it.
@@ -83,7 +72,7 @@ Run the following command, to open it.
 docker-compose exec app rails c
 ```
 
-## Test
+## Specs
 
 The hitobito application has a lot of rspec tests.
 To run them all, use the following command:
@@ -105,12 +94,26 @@ root@a42b42c42d42:/app/hitobito# cd ../hitobito_WAGON/
 root@a42b42c42d42:/app/hitobito_WAGON# rspec
 ```
 
+## Installing gems
+
+After installing new gems or fetching a revision from Git that has some new gems installed, you should re-build your containers:
+```bash
+$ docker-compose build --no-cache
+$ docker-compose up app
+```
+
 ## Seed
 
 If you need to re-seed your db, use the following command:
 
 ```
 docker-compose run --rm app rake db:seed wagon:seed
+```
+
+After that, you might need to reset the root user's password again:
+```
+echo 'p=Person.first; p.update(password: "password"); "You can now login under http://localhost:3000 as #{p.email} with the password '"'"'password'"'"'"' | \
+  docker-compose run --rm -T app rails c
 ```
 
 ## Full-text search
@@ -145,18 +148,6 @@ This method is also not too bad if your working environment got screwed up someh
 ## Internals
 
 Here follows a dicussion about why certain things were done a certain way in this repository.
-
-### Exposed Ports
-
-The `docker-compose.yml` file does expose all relevant ports.
-But it does not assign them a well-known port.
-This means, that it is _intentionally_ not possible to access the main application using `http://localhost:3000`!
-Either you use `docker-compose ps` (or the `docker-compose port SERVICE PORTNUMBER` command) to get the actual port Docker assigned – or you use something like [Reception](https://github.com/nxt-engineering/reception).
-
-Why would you need this _Reception_ thingy? Because it makes all the services accessible through a reverse proxy that is accessible using `http://SERVICENAME.PROJECTNAME.docker` (or `http://SERVICENAME.PROJECTNAME.local` on Linux).
-This makes work more convenient and allows to have multiple projects, that all bind to the same port (e.g. `3000`), running at the same time.
-(Because Docker will handle the port conflict for us.)
-As an extra you get an overview over all running services and their exposed ports for free at `http://reception.docker` (or `http://reception.local` on linux).
 
 ### Mounts
 
