@@ -33,4 +33,6 @@ CMD [ "rspec" ]
 ####################################################################
 FROM dev as cypress
 
+VOLUME [ "/seed" ]
+
 RUN gem install cypress-on-rails -v 1.5
