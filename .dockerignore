@@ -27,3 +27,5 @@
 **/.ruby-version
 **/.rvm
 **/*.env
+**/.docker
+**/RUBYMINE-SETUP.md

@@ -47,6 +47,26 @@ services:
     ports:
     - "1234:1234"
 
+  cypressserver:
+    <<: *app
+    build:
+      context: .
+      target: cypress
+    environment:
+      RAILS_DB_NAME: hitobito_test
+      RAILS_DB_HOST: db-test
+    command: [ "rails", "server", "-b", "0.0.0.0", "-e", "test" ]
+    ports:
+      - 5002:3000
+    depends_on:
+      - db-test
+      - mail
+      - cache
+      - worker
+    volumes:
+      - ./.docker/cypress/spec/cypress/app_commands:/app/hitobito/spec/cypress/app_commands
+      - ./.docker/cypress/config/initializers/cypress_on_rails.rb:/app/hitobito/config/initializers/cypress_on_rails.rb
+  
   # Dependencies
 
   mail:

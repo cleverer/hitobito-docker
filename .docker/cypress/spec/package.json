@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "cypress": "^4.2.0",
+    "wait-on": "^4.0.1"
+  },
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "ci:wait": "wait-on http://localhost:5002"
+  }
+}

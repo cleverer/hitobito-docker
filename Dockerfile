@@ -29,3 +29,8 @@ ENV RAILS_ENV=test
 
 ENTRYPOINT [ "/app/.docker/entrypoint" ]
 CMD [ "rspec" ]
+
+####################################################################
+FROM dev as cypress
+
+RUN gem install cypress-on-rails -v 1.5

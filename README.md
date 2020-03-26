@@ -1,4 +1,5 @@
 # Hitobito
+[![Cypress Dashboard](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/hd1whh/runs)
 
 [_Hitobito_](https://github.com/hitobito/hitobito) is an open source web application to manage complex group hierarchies with members, events and a lot more.
 This repository offers a quick way to begin working on Hitobito and its wagons, using _Docker_ and _docker-compose_.
@@ -154,3 +155,25 @@ Here follows a dicussion about why certain things were done a certain way in thi
 The current directy is mounted by _docker-compose_ into the running containers.
 The main advantage is a much simpler workflow, because it allows you to change your 'local' files and they are immediately picked up by the commands in the server.
 I.e. you don't have to re-build the Docker images after every code change.
+
+# Cypress testing
+
+ Generally check the docs:
+ - [CypressOnRails](https://github.com/shakacode/cypress-on-rails#cypressonrails)
+ - [Cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell)
+
+ ## Quickstart
+
+
+ 1. `docker-compose up -d cypressserver`
+ 2. Install [yarn](https://yarnpkg.com/en/docs/install)
+ 3. Go to `.docker/cypress/spec` in your shell.
+ 4. Install the testing dependencies (might take a while): `yarn install --frozen-lockfile`
+ 5. `yarn run ci:wait && yarn run cypress:open`
+ 6. Start adding tests, they get rerun automatically when open!
+
+ ## Options
+
+ ### Different port/base url
+
+ If you don't want to run the test server on port 5002 or on another host you can either edit the baseURL in `.docker/cypress/spec/cypress.json` or set an env var before starting: `export CYPRESS_BASE_URL=http://localhost:8080`
