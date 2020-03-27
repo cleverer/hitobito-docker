@@ -37,6 +37,9 @@ Cypress.Commands.add('appFixtures', function (options) {
 
 // The next is optional
 beforeEach(() => {
+ cy.app('start_transaction') // have a look at cypress/app_commands/clean.rb
+});
+afterEach(() => {
  cy.app('clean') // have a look at cypress/app_commands/clean.rb
 });
 
