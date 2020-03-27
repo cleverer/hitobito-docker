@@ -35,4 +35,4 @@ FROM dev as cypress
 
 VOLUME [ "/seed" ]
 
-RUN gem install cypress-on-rails -v 1.5
+RUN bundle add cypress-on-rails -v 1.5
