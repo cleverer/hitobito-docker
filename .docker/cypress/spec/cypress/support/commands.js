@@ -65,6 +65,14 @@ Cypress.Commands.add("getCSRFToken", () => {
   })
 })
 
+Cypress.Commands.add("dumpDB", () => {
+  return cy.request('http://localhost:' + Cypress.config('dbPort') + '/db/dump')
+})
+
+Cypress.Commands.add("loadDB", () => {
+  return cy.request('http://localhost:' + Cypress.config('dbPort') + '/db/load')
+})
+
 //
 //
 // -- This is a child command --

@@ -54,13 +54,13 @@ services:
       target: cypress
     environment:
       RAILS_DB_NAME: hitobito_test
-      RAILS_DB_HOST: db-test
+      RAILS_DB_HOST: db-test-mysqldump
     command: [ "rails", "server", "-b", "0.0.0.0", "-e", "test" ]
     ports:
       - 5002:3000
     depends_on:
-      - db-test
       - mail
+      - db-test-mysqldump
       - cache
       - worker
     volumes:
@@ -116,8 +116,22 @@ services:
     environment:
       MYSQL_DATABASE: hitobito_test
 
+  db-test-mysqldump:
+    build:
+      context: .docker/mysqldump
+      dockerfile: Dockerfile.mysqldump
+    env_file: .docker/mysql.env
+    ports:
+    - "33066:3306"
+    - "8080:7070"
+    environment:
+      MYSQL_DATABASE: hitobito_test
+      MYSQLDUMP_PORT: 7070
+    volumes:
+      - dump:/dump
+
 volumes:
   db:
   sphinx:
   seed:
-
+  dump:
