@@ -3,7 +3,7 @@
 set -e
 
 echo "⚙️ Waiting for hitobito to be ready!"
-npx -q wait-on http://cypressserver:3000
+npx -q wait-on "${CYPRESS_BASE_URL}"
 echo "✅ Hitobito is ready!"
 
 echo "➡️ Handing control over to 'cypress $*'"

@@ -164,11 +164,20 @@ I.e. you don't have to re-build the Docker images after every code change.
 
  ## Quickstart
 
-### Run stests in docker
+### Run tests in docker
 
 ```bash
-docker-compose run --rm cypress
+docker-compose run cypress
+docker-compose down
 ```
+
+If you want to run the tests against a running dev server:
+
+```bash
+docker-compose run --rm --no-deps -e CYPRESS_BASE_URL=http://app:3000 cypress
+```
+
+_Note: You can only connect to servers running inside docker-compose. If you need that, check [here](https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command/)._
 
 ### Using GUI
  1. `docker-compose up -d cypressserver`
