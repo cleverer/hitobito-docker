@@ -64,7 +64,8 @@ services:
       - cache
       - test-worker
     volumes:
-      - ./.docker/cypress/spec/cypress:/app/hitobito/spec/cypress
+      - ./.docker/cypress/spec/cypress/app_commands:/app/hitobito/spec/cypress/app_commands
+      - ./.docker/cypress/spec/cypress/cypress_helper.rb:/app/hitobito/spec/cypress/cypress_helper.rb
       - ./.docker/cypress/config/initializers/cypress_on_rails.rb:/app/hitobito/config/initializers/cypress_on_rails.rb
       - ./database.yml:/app/hitobito/config/database.yml
   
