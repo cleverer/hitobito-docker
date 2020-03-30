@@ -164,7 +164,13 @@ I.e. you don't have to re-build the Docker images after every code change.
 
  ## Quickstart
 
+### Run stests in docker
 
+```bash
+docker-compose run --rm cypress
+```
+
+### Using GUI
  1. `docker-compose up -d cypressserver`
  2. Install [yarn](https://yarnpkg.com/en/docs/install)
  3. Go to `.docker/cypress/spec` in your shell.

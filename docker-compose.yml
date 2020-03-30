@@ -76,6 +76,21 @@ services:
     - db-test
     - mail
     - cache  
+      
+  cypress:
+    image: cypress/included:4.2.0
+    working_dir: /e2e
+    environment:
+      - CYPRESS_BASE_URL=http://cypressserver:3000
+    volumes:
+      - .docker/cypress/spec:/e2e
+      - .docker/cypress/entrypoint.sh:/bin/entrypoint.sh
+    depends_on:
+      - cypressserver
+    entrypoint: 
+      - /bin/entrypoint.sh
+    command: ["run"]
+
   # Dependencies
 
   mail:
