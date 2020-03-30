@@ -47,7 +47,7 @@ services:
     ports:
     - "1234:1234"
 
-  cypressserver:
+  cypressserver: &cypressserver
     <<: *app
     build:
       context: .
@@ -62,11 +62,20 @@ services:
       - db-test
       - mail
       - cache
-      - worker
+      - test-worker
     volumes:
       - ./.docker/cypress/spec/cypress/app_commands:/app/hitobito/spec/cypress/app_commands
       - ./.docker/cypress/config/initializers/cypress_on_rails.rb:/app/hitobito/config/initializers/cypress_on_rails.rb
   
+  test-worker:
+    <<: *cypressserver
+    entrypoint: /app/.docker/worker-entrypoint
+    command: [ rake, 'jobs:work' ]
+    ports: []
+    depends_on:
+    - db-test
+    - mail
+    - cache  
   # Dependencies
 
   mail:
