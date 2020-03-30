@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "cypress": "^4.2.0",
+    "cypress": "^4.3.0",
     "wait-on": "^4.0.1"
   },
   "scripts": {
