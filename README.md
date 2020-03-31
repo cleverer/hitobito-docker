@@ -190,9 +190,8 @@ _Note: You can only connect to servers running inside docker-compose. If you nee
 ### Using GUI in Docker
  1. If you are on Mac, install the XQuartz X11 server (`brew cask install xquartz`) and restart your machine
  2. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
- 3. `docker-compose up -d cypressserver`
- 4. Go to `.docker/cypress/spec` in your shell.
- 5. `docker-compose run cypress-gui`
+ 3. `docker-compose up -d cypressserver` and wait until the seeds have finished (can take ~5 minutes, you can check using `docker-compose logs cypressserver`)
+ 4. `docker-compose run cypress-gui`
 
  ## Options
 
