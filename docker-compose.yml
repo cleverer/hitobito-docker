@@ -55,7 +55,7 @@ services:
     environment:
       RAILS_DB_NAME: hitobito_test
       RAILS_DB_HOST: db-test
-    command: [ "rails", "server", "-b", "0.0.0.0", "-e", "test" ]
+    command: [ "puma", "-e", "test", "-t", "0:1" ]
     ports:
       - 5002:3000
     depends_on:
@@ -96,12 +96,9 @@ services:
   # Dependencies
 
   mail:
-    build:
-      context: .
-      target: base
-    command: [ mailcatcher, -f, --ip, '0.0.0.0' ]
+    image: mailhog/mailhog
     ports:
-    - "1080:1080"
+    - "1080:8025"
 
   cache:
     image: memcached:1.5-alpine
