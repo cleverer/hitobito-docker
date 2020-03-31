@@ -188,11 +188,30 @@ _Note: You can only connect to servers running inside docker-compose. If you nee
  6. Start adding tests, they get rerun automatically when open!
 
 ### Using GUI in Docker
- 1. If you are on Mac, install the XQuartz X11 server (`brew cask install xquartz`) and restart your machine
- 2. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
- 3. `docker-compose up -d cypressserver` and wait until the seeds have finished (can take ~5 minutes, you can check using `docker-compose logs cypressserver`)
- 4. `docker-compose run cypress-gui`
 
+#### Linux
+ 1. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
+ 2. `docker-compose up -d cypressserver`
+ 3. `docker-compose run cypress open --project .`
+
+#### Mac
+
+_It is probably easier, faster and cleaner to use cypress directly (check above)._
+
+ 1. Install the XQuartz X11 server (`brew cask install xquartz`) and restart your machine
+ 2. Open XQuartz, go to settings and "Allow connections from network clients" (further reference [here](https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/#run-xquartz)) 
+ 3. In the project directory, run `IP=$(ipconfig getifaddr en0)`. (You might want to adjust the  `en0` to your network interface of choice…)
+ 4. Run `xhost + $IP` to allow the Docker container to send messages to the X server
+ 5. Run `DISPLAY=$IP:0 docker-compose run cypress open --project .`
+
+ #### Windows
+
+ _ Not yet tested_
+
+https://dev.to/darksmile92/run-gui-app-in-linux-docker-container-on-windows-host-4kde
+
+When you have set everything up, you should be able to start the same as on the mac…
+ 
  ## Options
 
  ### Different port/base url
