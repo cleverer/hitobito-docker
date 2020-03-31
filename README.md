@@ -188,6 +188,7 @@ _Note: You can only connect to servers running inside docker-compose. If you nee
  6. Start adding tests, they get rerun automatically when open!
 
 ### Using GUI in Docker
+
 #### Linux
  1. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
  2. `docker-compose up -d cypressserver`
