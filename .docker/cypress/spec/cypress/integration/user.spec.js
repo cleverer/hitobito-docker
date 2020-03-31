@@ -1,6 +1,6 @@
 describe('The user', function () {
 	beforeEach(() => {
-	  cy.login("kunz@puzzle.ch", "hito42bito")
+	  cy.login("hitobito-pbs@puzzle.ch", "hito42bito")
 	})
 	it('can add a role', function () {
 	  cy.visit("/de/groups/1/people/18")
@@ -54,5 +54,28 @@ describe('The user', function () {
     cy.get('form#new_role button[type="submit"]:first').click()
 
     cy.contains("Rolle Geschäftsleiter für Marlies Sauerkraut / Brexit in Pfadibewegung Schweiz wurde erfolgreich erstellt.")
+  })
+  it('can move a role', function () {
+    cy.visit("/de/groups/1/people/18")
+    cy.get('section.roles strong a[href]').click()
+    cy.get('section.roles').should('not.exist')
+
+    cy.get('#content .content-header .nav li:nth-child(2) a[href*=people]').click()
+    cy.contains("Debitis").closest("tr").find("input[type=checkbox]").click()
+    cy.get(".actions-enabled .actions a[href$=move]").click()
+
+    cy.get("#role_type").select("Group::Bund::ItSupport")
+    cy.get("#role_created_at").as("date-input").type("25.04.2020").closest("fieldset").find("legend").click()
+    cy.get(".modal-footer button[type=submit]").click()
+    cy.get("@date-input").should('not.be.visible')
+    cy.get(".modal-footer button[type=submit]").click()
+
+    cy.get("#flash").should('contain', "Eine Rolle wurde verschoben")
+    cy.get("#quicksearch").as("quicksearch").type("Berner Mara Debitis")
+    cy.get("@quicksearch").closest(".quicksearch").find(".dropdown-menu a[href]").first().click()
+
+    cy.get('.content-header > .nav > :nth-child(2) > a').click()
+    // History broken here…
+
   })
 })
