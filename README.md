@@ -201,7 +201,7 @@ _It is probably easier, faster and cleaner to use cypress directly (check above)
  2. Open XQuartz, go to settings and "Allow connections from network clients" (further reference [here](https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/#run-xquartz)) 
  3. In the project directory, run `IP=$(ipconfig getifaddr en0)`. (You might want to adjust the  `en0` to your network interface of choice…)
  4. Run `xhost + $IP` to allow the Docker container to send messages to the X server
- 5. Run `DISPLAY=$IP:0 docker-compose run cypress open --project .`
+ 5. Run `DISPLAY=$IP:0 docker-compose run cypress-gui`
 
  #### Windows
 
