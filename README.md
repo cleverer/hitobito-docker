@@ -203,6 +203,14 @@ _It is probably easier, faster and cleaner to use cypress directly (check above)
  4. Run `xhost + $IP` to allow the Docker container to send messages to the X server
  5. Run `DISPLAY=$IP:0 docker-compose run cypress open --project .`
 
+ #### Windows
+
+ _ Not yet tested_
+
+https://dev.to/darksmile92/run-gui-app-in-linux-docker-container-on-windows-host-4kde
+
+When you have set everything up, you should be able to start the same as on the mac…
+ 
  ## Options
 
  ### Different port/base url
