@@ -83,21 +83,23 @@ services:
     image: cypress/included:4.3.0
     working_dir: /e2e
     environment:
-      - DISPLAY
       - CYPRESS_BASE_URL=http://cypressserver:3000
     volumes:
       - .docker/cypress/spec:/e2e
       - .docker/cypress/entrypoint.sh:/bin/entrypoint.sh
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # For running in Docker on Linux
     depends_on:
       - cypressserver
     entrypoint: 
       - /bin/entrypoint.sh
-    command: ["run"]
+    command: ["run", "--project", "."]
 
   cypress-gui:
     <<: *cypress
     command: ["open", "--project", "."]
+    environment:
+      - DISPLAY
+      - CYPRESS_BASE_URL=http://cypressserver:3000
 
   # Dependencies
 
