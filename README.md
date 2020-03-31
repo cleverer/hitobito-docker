@@ -164,7 +164,7 @@ I.e. you don't have to re-build the Docker images after every code change.
 
  ## Quickstart
 
-### Run tests in docker
+### Run tests in Docker
 
 ```bash
 docker-compose run cypress
@@ -186,6 +186,13 @@ _Note: You can only connect to servers running inside docker-compose. If you nee
  4. Install the testing dependencies (might take a while): `yarn install --frozen-lockfile`
  5. `yarn run ci:wait && yarn run cypress:open`
  6. Start adding tests, they get rerun automatically when open!
+
+### Using GUI in Docker
+ 1. If you are on Mac, install the XQuartz X11 server (`brew cask install xquartz`) and restart your machine
+ 2. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
+ 3. `docker-compose up -d cypressserver`
+ 4. Go to `.docker/cypress/spec` in your shell.
+ 5. `docker-compose run cypress-gui`
 
  ## Options
 
