@@ -95,6 +95,10 @@ services:
       - /bin/entrypoint.sh
     command: ["run"]
 
+  cypress-gui:
+    <<: *cypress
+    command: ["open", "--project", "."]
+
   # Dependencies
 
   mail:
