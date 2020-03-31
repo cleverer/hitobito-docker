@@ -191,7 +191,7 @@ _Note: You can only connect to servers running inside docker-compose. If you nee
 #### Linux
  1. Run `xhost local:root` to allow the root user from the Docker container to send messages to the X server
  2. `docker-compose up -d cypressserver`
- 3. `docker-compose run cypress-gui`
+ 3. `docker-compose run cypress open --project .`
 
 #### Mac
 
