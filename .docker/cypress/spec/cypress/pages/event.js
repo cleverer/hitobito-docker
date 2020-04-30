@@ -5,15 +5,21 @@ export const register = (eventID, groupID) => {
   cy.get('button[type="submit"]:contains("Anmelden")').click()
 }
 
-export const editRequest = (eventID, groupID, payload) => {
-  cy.getCSRFToken().then(token => {
-    payload.authenticity_token = token
-    payload._method = 'patch'
-    cy.request({
-      url: `/de/groups/${groupID}/events/${eventID}`,
-      method: 'POST',
-      form: true,
-      body: payload
+export const editRequest = (eventID, payload) => {
+  cy.getFullUrl('event', eventID).then(res => {
+    cy.getCSRFToken().then(token => {
+      Object.keys(payload).forEach(key => {
+        payload[`event[${key}]`] = payload[key]
+        delete payload[key]
+      })
+      payload.authenticity_token = token
+      payload._method = 'patch'
+      cy.request({
+        url: res.url,
+        method: 'POST',
+        form: true,
+        body: payload
+      })
     })
   })
 }

@@ -65,6 +65,42 @@ Cypress.Commands.add("getCSRFToken", () => {
   })
 })
 
+Cypress.Commands.add('getInputByText', { prevSubject: 'optional'}, (subject, text, checkbox) => {
+  if (subject) {
+    if (checkbox)
+      return cy.wrap(subject, { log: false }).contains(text).closest('.control-group', { log: false })
+        .contains(checkbox).find('input[type="checkbox"]', { log: false }).first({ log: false })
+      return cy.wrap(subject, { log: false }).contains(text).closest('.control-group', { log: false })
+        .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+  } else {
+    if (checkbox)
+      return cy.contains(text).closest('.control-group', { log: false })
+        .contains(checkbox).find('input[type="checkbox"]', { log: false }).first({ log: false })
+    else
+      return cy.contains(text).closest('.control-group', { log: false })
+        .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+  }
+})
+
+Cypress.Commands.add('getFullUrl', (type, id) => {
+  if (type == 'person') {
+    cy.request({url: `/de/people/${id}`, followRedirect: false}).then(res => {
+      let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/people\/\d+/)[1]
+      return { url: res.redirectedToUrl, groupId: groupId}
+    })
+  } else if (type == 'event') {
+    cy.request({url: `/de/events/${id}`, followRedirect: false}).then(res => {
+      let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/events\/\d+/)[1]
+      return { url: res.redirectedToUrl, groupId: groupId}
+    })
+  } else {
+    throw {
+      name: 'Invalid type Exception',
+      message: 'Type needs to be "person" or "event"'
+    }
+  }
+})
+
 //
 //
 // -- This is a child command --

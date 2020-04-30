@@ -27,18 +27,18 @@ describe('Course approvals', function () {
       const EVENT_ID = '84'
       const GROUP_ID = '2'
 
-      editRequest(EVENT_ID, GROUP_ID, {
-        'event[state]': 'application_open',
-        'event[application_opening_at]': '01.01.2020',
-        'event[application_closing_at]': '31.12.2020',
-        'event[requires_approval_abteilung]': '0',
-        'event[requires_approval_region]': '1',
-        'event[requires_approval_kantonalverband]': '1',
-        'event[requires_approval_bund]': '0'
+      editRequest(EVENT_ID, {
+        'state': 'application_open',
+        'application_opening_at': '01.01.2020',
+        'application_closing_at': '31.12.2020',
+        'requires_approval_abteilung': '0',
+        'requires_approval_region': '1',
+        'requires_approval_kantonalverband': '1',
+        'requires_approval_bund': '0'
       })
 
       // imitate a person and initiate the participation
-      imitate(469, 13)
+      imitate(469)
       register(EVENT_ID, GROUP_ID)
       cy.get('a:contains("Imitation beenden")').click()
 
