@@ -1,24 +1,37 @@
-export const register = (eventID, groupID) => {
-  cy.visit(`/de/groups/${groupID}/events/${eventID}`)
-  cy.get('a.btn:contains("Anmelden")').click()
-  cy.get('button[type="submit"]:contains("Weiter"):first').click()
-  cy.get('button[type="submit"]:contains("Anmelden")').click()
+export const register = (eventID, role) => {
+  cy.getEventUrl(eventID).then(res => {
+    cy.getCSRFToken().then(token => {
+      let post_data = {'event_role[type]': role,
+        'event_participation[additional_information]': ''}
+      post_data.authenticity_token = token
+      cy.request({
+        url: `${res.url}/participations`,
+        method: 'POST',
+        form: true,
+        followRedirect: false,
+        body: post_data
+      }).then(res => {
+        let participationId = res.redirectedToUrl.match(/de\/groups\/\d+\/events\/\d+\/participations\/(\d+)/)[1]
+        cy.wrap({ url: res.redirectedToUrl, id: participationId}).as('participation')
+      })
+    })
+  })
 }
 
-export const editRequest = (eventID, payload) => {
-  cy.getFullUrl('event', eventID).then(res => {
+export const edit = (eventID, payload) => {
+  cy.getEventUrl(eventID).then(res => {
     cy.getCSRFToken().then(token => {
+      let post_data = {}
       Object.keys(payload).forEach(key => {
-        payload[`event[${key}]`] = payload[key]
-        delete payload[key]
+        post_data[`event[${key}]`] = payload[key]
       })
-      payload.authenticity_token = token
-      payload._method = 'patch'
+      post_data.authenticity_token = token
+      post_data._method = 'patch'
       cy.request({
         url: res.url,
         method: 'POST',
         form: true,
-        body: payload
+        body: post_data
       })
     })
   })

@@ -65,40 +65,56 @@ Cypress.Commands.add("getCSRFToken", () => {
   })
 })
 
-Cypress.Commands.add('getInputByText', { prevSubject: 'optional'}, (subject, text, checkbox) => {
+/**
+ * Finds the checkbox which is nearest to the given label in the UI. Supports multiple checkboxes
+ * grouped together by specifying the checkbox label.
+ * @param {string} label - The label of the input.
+ * @param {string} checkbox_label - The label of the checkbox.
+ */
+Cypress.Commands.add('nearestCheckbox', { prevSubject: 'optional'}, (subject, label, checkbox_label) => {
   if (subject) {
-    if (checkbox)
-      return cy.wrap(subject, { log: false }).contains(text).closest('.control-group', { log: false })
-        .contains(checkbox).find('input[type="checkbox"]', { log: false }).first({ log: false })
-      return cy.wrap(subject, { log: false }).contains(text).closest('.control-group', { log: false })
-        .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+    return cy.wrap(subject, { log: false }).contains(label).closest('.control-group', { log: false })
+      .contains(checkbox_label).find('input[type="checkbox"]', { log: false }).first({ log: false })
   } else {
-    if (checkbox)
-      return cy.contains(text).closest('.control-group', { log: false })
-        .contains(checkbox).find('input[type="checkbox"]', { log: false }).first({ log: false })
-    else
-      return cy.contains(text).closest('.control-group', { log: false })
-        .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+    return cy.contains(label).closest('.control-group', { log: false })
+      .contains(checkbox_label).find('input[type="checkbox"]', { log: false }).first({ log: false })
   }
 })
 
-Cypress.Commands.add('getFullUrl', (type, id) => {
-  if (type == 'person') {
-    cy.request({url: `/de/people/${id}`, followRedirect: false}).then(res => {
-      let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/people\/\d+/)[1]
-      return { url: res.redirectedToUrl, groupId: groupId}
-    })
-  } else if (type == 'event') {
-    cy.request({url: `/de/events/${id}`, followRedirect: false}).then(res => {
-      let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/events\/\d+/)[1]
-      return { url: res.redirectedToUrl, groupId: groupId}
-    })
+/**
+ * Finds the input (text field, textarea, select) which is nearest to the given label in the UI.
+ * @param {string} label - The label of the input.
+ */
+Cypress.Commands.add('nearestInput', { prevSubject: 'optional'}, (subject, label) => {
+  if (subject) {
+    return cy.wrap(subject, { log: false }).contains(label).closest('.control-group', { log: false })
+      .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
   } else {
-    throw {
-      name: 'Invalid type Exception',
-      message: 'Type needs to be "person" or "event"'
-    }
+    return cy.contains(label).closest('.control-group', { log: false })
+      .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
   }
+})
+
+/**
+ * Returns the URL and group id of the person specified by the id.
+ * @param {integer} id - Database id of the person.
+ */
+Cypress.Commands.add('getPersonUrl', (id) => {
+  cy.request({url: `/de/people/${id}`, followRedirect: false}).then(res => {
+    let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/people\/\d+/)[1]
+    return { url: res.redirectedToUrl, groupId: groupId}
+  })
+})
+
+/**
+ * Returns the URL and group id of the event specified by the id.
+ * @param {integer} id - Database id of the event.
+ */
+Cypress.Commands.add('getEventUrl', (id) => {
+  cy.request({url: `/de/events/${id}`, followRedirect: false}).then(res => {
+    let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/events\/\d+/)[1]
+    return { url: res.redirectedToUrl, groupId: groupId}
+  })
 })
 
 //

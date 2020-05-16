@@ -1,10 +1,17 @@
-export const approve = (groupID, fullName, content = []) => {
-  cy.visit(`/de/groups/${groupID}/pending_approvals`)
-  cy.get(`a:contains("${fullName}")`).click()
-  cy.get('a.btn:contains("Freigeben")').click()
-  cy.get('input[id^=event_approval], textarea[id^=event_approval]').each(($el, $i) => {
-    cy.wrap($el).type($i < content.length ? content[$i] : '-')
+export const approve = (eventID, participationID, payload) => {
+  cy.getEventUrl(eventID).then(res => {
+    cy.getCSRFToken().then(token => {
+      let post_data = {'decision': 'approve'}
+      Object.keys(payload).forEach(key => {
+        post_data[`event_approval[${key}]`] = payload[key]
+      })
+      post_data.authenticity_token = token
+      cy.request({
+        url: `${res.url}/participations/${participationID}/approvals`,
+        method: 'POST',
+        form: true,
+        body: post_data
+      })
+    })
   })
-  cy.get('button[type="submit"]:contains("Freigeben"):first').click()
-  cy.url().should('match', /de\/groups\/\d+\/events\/\d+\/participations\/\d+/)
 }

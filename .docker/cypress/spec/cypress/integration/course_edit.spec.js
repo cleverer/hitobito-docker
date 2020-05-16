@@ -1,31 +1,31 @@
-import { editRequest } from '../pages/event.js'
-import { root_user, unspunne_smw as event } from '../support/constants.js'
+import { edit } from '../pages/event.js'
+import { root_user, unspunne_sicherheitsmodul_wasser as event } from '../support/constants.js'
 
 describe('A course', function () {
 
   beforeEach(() => {
-		cy.login(root_user.login, root_user.pw)
+		cy.login(root_user.username, root_user.password)
 	})
 
   it('can be edited via the UI or a request, the result is the same', function () {
-    cy.getFullUrl('event', event.ID).then((res) => {
+    cy.getEventUrl(event.id).then((res) => {
       cy.wrap(res.url).as('event_url')
     })
 
     cy.get('@event_url').then((url) => {
       cy.visit(`${url}/edit`)
     })
-    cy.getInputByText('Name').focus().clear().type(event.FIELDS['name'])
-    cy.getInputByText('Ort / Adresse').focus().clear().type(event.FIELDS['location'])
-    cy.getInputByText('Status').select('Offen zur Anmeldung')
-    cy.getInputByText('Motto').focus().clear().type(event.FIELDS['motto'])
+    cy.nearestInput('Name').focus().clear().type(event.fields['name'])
+    cy.nearestInput('Ort / Adresse').focus().clear().type(event.fields['location'])
+    cy.nearestInput('Status').select('Offen zur Anmeldung')
+    cy.nearestInput('Motto').focus().clear().type(event.fields['motto'])
     cy.get('.nav-tabs').contains('Anmeldung').click()
-    cy.getInputByText('Anmeldebeginn').focus().clear().type(event.FIELDS['application_opening_at'])
-    cy.getInputByText('Anmeldeschluss').focus().clear().type(event.FIELDS['application_closing_at'])
-    cy.getInputByText('Empfehlung der Anmeldungen nötig durch', 'Abteilung').uncheck()
-    cy.getInputByText('Empfehlung der Anmeldungen nötig durch', 'Region').check()
-    cy.getInputByText('Empfehlung der Anmeldungen nötig durch', 'Kantonalverband').check()
-    cy.getInputByText('Empfehlung der Anmeldungen nötig durch', 'Bundesebene').uncheck()
+    cy.nearestInput('Anmeldebeginn').focus().clear().type(event.fields['application_opening_at'])
+    cy.nearestInput('Anmeldeschluss').focus().clear().type(event.fields['application_closing_at'])
+    cy.nearestCheckbox('Empfehlung der Anmeldungen nötig durch', 'Abteilung').uncheck()
+    cy.nearestCheckbox('Empfehlung der Anmeldungen nötig durch', 'Region').check()
+    cy.nearestCheckbox('Empfehlung der Anmeldungen nötig durch', 'Kantonalverband').check()
+    cy.nearestCheckbox('Empfehlung der Anmeldungen nötig durch', 'Bundesebene').uncheck()
     cy.contains('Speichern').first().click()
 
     cy.get('@event_url').then((url) => {
@@ -35,9 +35,9 @@ describe('A course', function () {
     cy.app('clean')
     cy.app('start_transaction')
 
-    cy.login(root_user.login, root_user.pw)
+    cy.login(root_user.username, root_user.password)
 
-    editRequest(event.ID, event.FIELDS)
+    edit(event.id, event.fields)
 
     // note: the JSON API does not return all fields, so there may still be differences
     // for example the requires_approval fields are not included
