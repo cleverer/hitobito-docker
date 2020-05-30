@@ -72,13 +72,21 @@ Cypress.Commands.add("getCSRFToken", () => {
  * @param {string} checkbox_label - The label of the checkbox.
  */
 Cypress.Commands.add('nearestCheckbox', { prevSubject: 'optional'}, (subject, label, checkbox_label) => {
-  if (subject) {
-    return cy.wrap(subject, { log: false }).contains(label).closest('.control-group', { log: false })
-      .contains(checkbox_label).find('input[type="checkbox"]', { log: false }).first({ log: false })
-  } else {
-    return cy.contains(label).closest('.control-group', { log: false })
-      .contains(checkbox_label).find('input[type="checkbox"]', { log: false }).first({ log: false })
+  let message = label
+  if (checkbox_label) {
+    message = message + ` (${checkbox_label})`
   }
+  Cypress.log({
+    displayName: "Nearest Checkbox",
+    message: message
+  })
+  let base
+  if (subject) {
+    base = cy.wrap(subject, { log: false }).contains(label, { log: false })
+  } else {
+    base = cy.contains(label, { log: false })
+  }
+  return base.closest('.control-group', { log: false }).contains(checkbox_label, { log: false }).find('input[type="checkbox"]', { log: false }).first({ log: false })
 })
 
 /**
@@ -86,24 +94,32 @@ Cypress.Commands.add('nearestCheckbox', { prevSubject: 'optional'}, (subject, la
  * @param {string} label - The label of the input.
  */
 Cypress.Commands.add('nearestInput', { prevSubject: 'optional'}, (subject, label) => {
+  Cypress.log({
+    displayName: "Nearest Input",
+    message: label
+  })
+  let base
   if (subject) {
-    return cy.wrap(subject, { log: false }).contains(label).closest('.control-group', { log: false })
-      .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+    base = cy.wrap(subject, { log: false }).contains(label, { log: false })
   } else {
-    return cy.contains(label).closest('.control-group', { log: false })
-      .find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
+    base = cy.contains(label, { log: false })
   }
+  return base.closest('.control-group', { log: false }).find('input:not([type="hidden"]), textarea, select', { log: false }).first({ log: false })
 })
+
+const getUrl = (url, regex) => {
+  cy.request({url: url, followRedirect: false, log: false}).then(res => {
+    let groupId = res.redirectedToUrl.match(regex)[1]
+    return { url: res.redirectedToUrl, groupId: groupId}
+  })
+}
 
 /**
  * Returns the URL and group id of the person specified by the id.
  * @param {integer} id - Database id of the person.
  */
 Cypress.Commands.add('getPersonUrl', (id) => {
-  cy.request({url: `/de/people/${id}`, followRedirect: false}).then(res => {
-    let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/people\/\d+/)[1]
-    return { url: res.redirectedToUrl, groupId: groupId}
-  })
+  return getUrl(`/de/people/${id}`, /de\/groups\/(\d+)\/people\/\d+/)
 })
 
 /**
@@ -111,10 +127,7 @@ Cypress.Commands.add('getPersonUrl', (id) => {
  * @param {integer} id - Database id of the event.
  */
 Cypress.Commands.add('getEventUrl', (id) => {
-  cy.request({url: `/de/events/${id}`, followRedirect: false}).then(res => {
-    let groupId = res.redirectedToUrl.match(/de\/groups\/(\d+)\/events\/\d+/)[1]
-    return { url: res.redirectedToUrl, groupId: groupId}
-  })
+  return getUrl(`/de/events/${id}`, /de\/groups\/(\d+)\/events\/\d+/)
 })
 
 //

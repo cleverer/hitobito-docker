@@ -1,4 +1,4 @@
-import { edit, register } from '../pages/event.js'
+import { edit, register } from '../pageHelpers/event.js'
 import { root_user, zürich_basiskurs_pfadistufe as event } from '../support/constants.js'
 
 describe('A course participation', function () {

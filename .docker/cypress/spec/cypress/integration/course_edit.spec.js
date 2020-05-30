@@ -1,4 +1,4 @@
-import { edit } from '../pages/event.js'
+import { edit } from '../pageHelpers/event.js'
 import { root_user, unspunne_sicherheitsmodul_wasser as event } from '../support/constants.js'
 
 describe('A course', function () {

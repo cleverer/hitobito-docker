@@ -1,6 +1,6 @@
-import { register, edit } from '../pages/event.js'
-import { approve } from '../pages/pending_approvals.js'
-import { imitate, quitImitation } from '../pages/person.js'
+import { register, edit } from '../pageHelpers/event.js'
+import { approve } from '../pageHelpers/pending_approvals.js'
+import { imitate, quitImitation } from '../pageHelpers/person.js'
 import { root_user, user_dicta as dicta, user_necessitatibus as necessitatibus, user_ipsam as ipsam,
          bern_leitpfadikurs, empty_approval } from '../support/constants.js'
 
