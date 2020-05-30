@@ -1,18 +1,37 @@
 import { edit, register } from '../pageHelpers/event.js'
 import { root_user, zürich_basiskurs_pfadistufe as event } from '../support/constants.js'
 
-describe('A course participation', function () {
-  const RESET_AUTO_INCREMENT = `new_id = Event::Participation.maximum(:id).next;
-  ActiveRecord::Base.connection.execute("ALTER TABLE event_participations AUTO_INCREMENT = #{new_id};")`
+const replace_empty_strings_with_null = (object) => {
+  let newObject
+  if (Array.isArray(object)) {
+    newObject = [{}]
+  } else {
+    newObject = {}
+  }
+  Object.keys(object).forEach((key) => {
+    const value = object[key]
+    if (value === null) {
+      newObject[key] = value
+    } else if (typeof value == "string" && value.length == 0) {
+      newObject[key] = null
+    } else if (typeof value == "object") {
+      newObject[key] = replace_empty_strings_with_null(value)
+    } else {
+      newObject[key] = value
+    }
+  });
+  return newObject
+}
 
-  beforeEach(() => {
+const RESET_AUTO_INCREMENT = `new_id = Event::Participation.maximum(:id).next; ActiveRecord::Base.connection.execute("ALTER TABLE event_participations AUTO_INCREMENT = #{new_id};")`
+
+describe('A course participation', function () {
+  it('can be created via the UI or a request, the result is the same', function () {
     cy.app('clean')
     cy.appEval(RESET_AUTO_INCREMENT) // auto increment values are not reset by transactions
     cy.app('start_transaction')
 		cy.login(root_user.username, root_user.password)
-	})
 
-  it('can be created via the UI or a request, the result is the same', function () {
     cy.getEventUrl(event.id).then((res) => {
       cy.wrap(res.url).as('event_url')
     })
@@ -54,7 +73,9 @@ describe('A course participation', function () {
 
     cy.get('@participation_url').then((url) => {
       cy.request(`${url}.json`).then((response) => {
-        expect(this.json_ui.body.event_participations).to.deep.equal(response.body.event_participations)
+        const unified_response = replace_empty_strings_with_null(response.body.event_participations)
+        const unified_json_ui = replace_empty_strings_with_null(this.json_ui.body.event_participations)
+        expect(unified_response).to.deep.equal(unified_json_ui)
       })
     })
   })
